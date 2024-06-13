@@ -22,7 +22,7 @@ def get_harvested_area(neighborhood_id, year):
 
 @app.route('/productivity/<int:year>', methods=['GET'])
 def get_productivity(year):
-    states  = request.args.getlist('estados')
+    states  = request.args.getlist('states')
     conn = get_db_connection()
     query = 'SELECT * FROM produtividade WHERE ano = ? AND estado IN ({seq})'.format(seq=','.join(['?']*len(states )))
     data = conn.execute(query, [year] + states ).fetchall()
@@ -36,13 +36,13 @@ def get_productivity(year):
 
 @app.route('/produced_quantity', methods=['GET'])
 def get_produced_quantity():
-    neighborhoods = request.args.getlist('neighborhoods')
-    years = request.args.getlist('anos')
+    neighborhoods = request.args.getlist('neighborhoods_id')
+    years = request.args.getlist('years')
     if len(neighborhoods) * len(years) > 100:
         return jsonify(success=False, data=None, message='Request exceeds 100 data points limit')
 
     conn = get_db_connection()
-    query = 'SELECT * FROM producao WHERE municipio_codigo IN ({seq1}) AND ano_codigo IN ({seq2})'.format(seq1=','.join(['?']*len(neighborhoods)), seq2=','.join(['?']*len(years)))
+    query = 'SELECT * FROM producao WHERE municipio_codigo IN ({seq1}) AND ano IN ({seq2})'.format(seq1=','.join(['?']*len(neighborhoods)), seq2=','.join(['?']*len(years)))
     data = conn.execute(query, neighborhoods + years).fetchall()
     conn.close()
     data = [dict(row) for row in data]
