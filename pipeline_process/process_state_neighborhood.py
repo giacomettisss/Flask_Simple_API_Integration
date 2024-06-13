@@ -7,7 +7,7 @@ from functools import wraps
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def log_function_call(func):
+def logging_function(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         logging.info(f'Iniciando a função {func.__name__}')
@@ -18,25 +18,24 @@ def log_function_call(func):
     return wrapper
 
 
-@log_function_call
+@logging_function
 def create_tables():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS municipio_estado (
-            id INTEGER
+            id INTEGER PRIMARY KEY,
             id_uf_ibge INTEGER,
             sg_uf TEXT,
             id_municipio_ibge INTEGER,
-            nm_municipio TEXT,
-            PRIMARY KEY (id)
+            nm_municipio TEXT
         )
     ''')
     conn.commit()
     conn.close()
 
 
-@log_function_call
+@logging_function
 def populate_municipio_estado():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
