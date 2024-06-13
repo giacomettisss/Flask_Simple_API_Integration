@@ -8,43 +8,49 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-@app.route('/area_colhida/<int:municipio_id>/<int:ano>', methods=['GET'])
-def get_area_colhida(municipio_id, ano):
+
+@app.route('/harvested_area/<int:neighborhood_id>/<int:year>', methods=['GET'])
+def get_harvested_area(neighborhood_id, year):
     conn = get_db_connection()
-    data = conn.execute('SELECT * FROM colheita WHERE municipio_codigo = ? AND ano_codigo = ?', (municipio_id, ano)).fetchone()
+    data = conn.execute('SELECT * FROM colheita WHERE municipio_codigo = ? AND ano_codigo = ?', (neighborhood_id, year)).fetchone()
     conn.close()
     if data:
         return jsonify(success=True, data=dict(data), message='Data retrieved successfully')
     else:
         return jsonify(success=False, data=None, message='No data found')
 
-@app.route('/produtividade/<int:ano>', methods=['GET'])
-def get_produtividade(ano):
-    estados = request.args.getlist('estados')
+
+@app.route('/productivity/<int:year>', methods=['GET'])
+def get_productivity(year):
+    states  = request.args.getlist('estados')
     conn = get_db_connection()
-    query = 'SELECT * FROM produtividade WHERE ano = ? AND estado IN ({seq})'.format(seq=','.join(['?']*len(estados)))
-    data = conn.execute(query, [ano] + estados).fetchall()
+    query = 'SELECT * FROM produtividade WHERE ano = ? AND estado IN ({seq})'.format(seq=','.join(['?']*len(states )))
+    data = conn.execute(query, [year] + states ).fetchall()
     conn.close()
+    data = [dict(row) for row in data]
     if data:
-        return jsonify(success=True, data=[dict(row) for row in data], message='Data retrieved successfully')
+        return jsonify(success=True, data=data, message='Data retrieved successfully')
     else:
         return jsonify(success=False, data=None, message='No data found')
 
-@app.route('/quantidade_produzida', methods=['GET'])
-def get_quantidade_produzida():
-    municipios = request.args.getlist('municipios')
-    anos = request.args.getlist('anos')
-    if len(municipios) * len(anos) > 100:
+
+@app.route('/produced_quantity', methods=['GET'])
+def get_produced_quantity():
+    neighborhoods = request.args.getlist('neighborhoods')
+    years = request.args.getlist('anos')
+    if len(neighborhoods) * len(years) > 100:
         return jsonify(success=False, data=None, message='Request exceeds 100 data points limit')
 
     conn = get_db_connection()
-    query = 'SELECT * FROM producao WHERE municipio_codigo IN ({seq1}) AND ano_codigo IN ({seq2})'.format(seq1=','.join(['?']*len(municipios)), seq2=','.join(['?']*len(anos)))
-    data = conn.execute(query, municipios + anos).fetchall()
+    query = 'SELECT * FROM producao WHERE municipio_codigo IN ({seq1}) AND ano_codigo IN ({seq2})'.format(seq1=','.join(['?']*len(neighborhoods)), seq2=','.join(['?']*len(years)))
+    data = conn.execute(query, neighborhoods + years).fetchall()
     conn.close()
+    data = [dict(row) for row in data]
     if data:
-        return jsonify(success=True, data=[dict(row) for row in data], message='Data retrieved successfully')
+        return jsonify(success=True, data=data, message='Data retrieved successfully')
     else:
         return jsonify(success=False, data=None, message='No data found')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
