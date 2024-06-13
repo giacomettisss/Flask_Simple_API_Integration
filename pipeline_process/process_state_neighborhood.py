@@ -10,10 +10,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def logging_function(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        logging.info(f'Iniciando a função {func.__name__}')
-        logging.info(f'Args: {args}, Kwargs: {kwargs}')
+        logging.info(f'Function Started: {func.__name__}')
+        if args:            
+            logging.info(f' > Args: {args}')
+        if kwargs:
+            logging.info(f' > Kwargs: {kwargs}')
         result = func(*args, **kwargs)
-        logging.info(f'Função {func.__name__} concluída')
+        logging.info(f'Function Completed: {func.__name__}')
         return result
     return wrapper
 
@@ -23,7 +26,7 @@ def create_tables():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS municipio_estado (
+        CREATE TABLE IF NOT EXISTS estado_municipio (
             id INTEGER PRIMARY KEY,
             id_uf_ibge INTEGER,
             sg_uf TEXT,
@@ -36,7 +39,7 @@ def create_tables():
 
 
 @logging_function
-def populate_municipio_estado():
+def populate_estado_municipio():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
 
@@ -45,12 +48,10 @@ def populate_municipio_estado():
     with open(csv_file, 'r', encoding='latin1') as file:
         reader = csv.DictReader(file, delimiter=';')
         columns = reader.fieldnames
-        print(columns)
         cursor.execute('BEGIN TRANSACTION')
         for row in reader:
-            print(row)
             cursor.execute('''
-                INSERT OR REPLACE INTO municipio_estado (
+                INSERT OR REPLACE INTO estado_municipio (
                     id_uf_ibge, sg_uf, id_municipio_ibge, nm_municipio
                 ) VALUES (?, ?, ?, ?)
             ''', (row['id_uf_ibge'], row['sg_uf'], row['id_municipio_ibge'], row['nm_municipio']))
@@ -61,4 +62,4 @@ def populate_municipio_estado():
 
 if __name__ == '__main__':
     create_tables()
-    populate_municipio_estado()
+    populate_estado_municipio()
