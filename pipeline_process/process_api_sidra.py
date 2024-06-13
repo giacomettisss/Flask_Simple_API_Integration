@@ -29,36 +29,36 @@ def create_tables():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS colheita (
             id INTEGER PRIMARY KEY,
-            nivel_territorial_codigo TEXT,
+            nivel_territorial_codigo INTEGER,
             nivel_territorial TEXT,
-            unidade_medida_codigo TEXT,
+            unidade_medida_codigo INTEGER,
             unidade_medida TEXT,
             valor INTEGER,
-            municipio_codigo TEXT,
+            municipio_codigo INTEGER,
             municipio TEXT,
-            variavel_codigo TEXT,
+            variavel_codigo INTEGER,
             variavel TEXT,
             ano_codigo INTEGER,
-            ano TEXT,
-            produto_codigo TEXT,
+            ano INTEGER,
+            produto_codigo INTEGER,
             produto TEXT
         )
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS producao (
             id INTEGER PRIMARY KEY,
-            nivel_territorial_codigo TEXT,
+            nivel_territorial_codigo INTEGER,
             nivel_territorial TEXT,
-            unidade_medida_codigo TEXT,
+            unidade_medida_codigo INTEGER,
             unidade_medida TEXT,
             valor INTEGER,
             municipio_codigo TEXT,
             municipio TEXT,
-            variavel_codigo TEXT,
+            variavel_codigo INTEGER,
             variavel TEXT,
             ano_codigo INTEGER,
-            ano TEXT,
-            produto_codigo TEXT,
+            ano INTEGER,
+            produto_codigo INTEGER,
             produto TEXT
         )
     ''')
