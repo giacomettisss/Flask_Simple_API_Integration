@@ -40,24 +40,23 @@ Mude para o diretório de APIs.
 Suba a API Harvest Production.
  - Execute: `python3 api_harvest_production.py`
 
-Perfeito!
 Parece que está tudo pronto. Vamos acessar alguns endpoints e realizar algumas consultas.
 
 ### 4. Acessando endpoints
 
 Esses são os endpoints disponbilizamos pela nossa API:
- - Path: `/`
-  - Método: `GET`
-  - Descrição: Esse endpoint retorna quais são os paths disponíveis da nossa api.
- - Path: `/harvested_area?year={year}&municipality_id={id}`
-  - Método: `GET`
-  - Descrição: Esse endpoint retorna o valor de uma área colhida de um código de município de um ano.
- - Path: `/productivity?year={year}&state_uf={state}`
-  - Método: `GET`
-  - Descrição: Esse endpoint retorna o(s) valor(es) de produtividade de um ou mais estados brasileiros de um ano.
- - Path: `/produced_quantity?year={year1}&municipality_id={id}`
-  - Método: `GET`
-  - Descrição: Esse endpoint retorna múltiplos valores de quantidade produzida de um ou mais municípios de um ou mais anos.
+  - Path: `/`
+    - Método: `GET`
+    - Descrição: Esse endpoint retorna quais são os paths disponíveis da nossa api.
+  - Path: `/harvested_area?year={year}&municipality_id={id}`
+    - Método: `GET`
+    - Descrição: Esse endpoint retorna o valor de uma área colhida de um código de município de um ano.
+  - Path: `/productivity?year={year}&state_uf={state}`
+    - Método: `GET`
+    - Descrição: Esse endpoint retorna o(s) valor(es) de produtividade de um ou mais estados brasileiros de um ano.
+  - Path: `/produced_quantity?year={year1}&municipality_id={id}`
+    - Método: `GET`
+    - Descrição: Esse endpoint retorna múltiplos valores de quantidade produzida de um ou mais municípios de um ou mais anos.
 
 Vamos pegar a área colhida do município Alta Floresta D'Oeste que fica em Rondônia.
  - Abra a url: http://127.0.0.1:5000/harvested_area?year=2018&municipality_id=1100015
