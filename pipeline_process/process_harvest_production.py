@@ -27,7 +27,7 @@ def create_tables():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS harvest (
+        CREATE TABLE IF NOT EXISTS harvest_area (
             id INTEGER PRIMARY KEY,
             territorial_level_code INTEGER,
             territorial_level TEXT,
@@ -85,13 +85,13 @@ def create_tables():
             h.year,
             SUM(p.value) / SUM(h.value) AS productivity
         FROM
-            harvest h
+            harvest_area h
         JOIN
             production p ON h.municipality_code = p.municipality_code AND h.year = p.year
         JOIN
-            state_municipality me ON h.municipality_code = me.municipality_id_ibge
+            state_municipality me ON h.municipality_code = me.municipality_ibge_id
         GROUP BY
-            me.state_code, h.year
+            me.state_ibge_id, h.year
     ''')
     conn.commit()
     conn.close()
@@ -105,16 +105,16 @@ def insert_or_update(year):
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
     url_area = f'https://apisidra.ibge.gov.br/values/t/5457/n6/all/v/216/p/{year}/c782/40124?formato=json'
-    url_producao = f'https://apisidra.ibge.gov.br/values/t/5457/n6/all/v/214/p/{year}/c782/40124?formato=json'
+    url_production = f'https://apisidra.ibge.gov.br/values/t/5457/n6/all/v/214/p/{year}/c782/40124?formato=json'
     
     response_area = requests.get(url_area).json()
-    response_producao = requests.get(url_producao).json()
+    response_producao = requests.get(url_production).json()
     
     for item in response_area[1:]:
         item['V'] = clean_value(item['V'])
         cursor.execute('''
-            INSERT OR REPLACE INTO colheita (
-                nivel_territorial_codigo, nivel_territorial, unidade_medida_codigo, unidade_medida, valor, municipio_codigo, municipio, variavel_codigo, variavel, ano_codigo, ano, produto_codigo, produto
+            INSERT OR REPLACE INTO harvest_area (
+                territorial_level_code, territorial_level, measure_unit_code, measure_unit, value, municipality_code, municipality, variable_code, variable, year_code, year, product_code, product
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
@@ -124,8 +124,8 @@ def insert_or_update(year):
     for item in response_producao[1:]:
         item['V'] = clean_value(item['V'])
         cursor.execute('''
-            INSERT OR REPLACE INTO producao (
-                nivel_territorial_codigo, nivel_territorial, unidade_medida_codigo, unidade_medida, valor, municipio_codigo, municipio, variavel_codigo, variavel, ano_codigo, ano, produto_codigo, produto
+            INSERT OR REPLACE INTO production (
+                territorial_level_code, territorial_level, measure_unit_code, measure_unit, value, municipality_code, municipality, variable_code, variable, year_code, year, product_code, product
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
@@ -140,8 +140,8 @@ def insert_or_update(year):
 def delete(year):
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM colheita WHERE ano_codigo = ?', (year,))
-    cursor.execute('DELETE FROM producao WHERE ano_codigo = ?', (year,))
+    cursor.execute('DELETE FROM harvest_area WHERE year = ?', (year,))
+    cursor.execute('DELETE FROM production WHERE year = ?', (year,))
     conn.commit()
     conn.close()
 
