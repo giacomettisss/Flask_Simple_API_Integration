@@ -2,7 +2,7 @@
 \venv
 
 # Database
-*.db
+atabase.db
 
 # Test File
 teste.ipynb
