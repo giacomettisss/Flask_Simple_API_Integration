@@ -27,7 +27,7 @@ def get_harvested_area():
     if not year or not municipality_id:
         return jsonify(success=False, message='One `year` and one `municipality_id` are required'), 400
     
-    query = 'SELECT * FROM harvest WHERE municipality_code = ? AND year_codigo = ?'
+    query = 'SELECT * FROM harvest_area WHERE municipality_code = ? AND year = ?'
     with closing(get_db_connection()) as conn:
         data = conn.execute(query, (municipality_id, year)).fetchone()
 
