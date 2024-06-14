@@ -32,7 +32,7 @@ Agora vamos para o segundo Script, o qual é responsável por popular as tabelas
 
 ### 3. Disponbilizando APIs
 
-Agora com todos os ETLs já executados, tabelas populadas, views contruiídas estamos preparados para disponibilizar o acesso aos nossos cliente via nossa API.
+Agora com todos os ETLs já executados, tabelas populadas, views construídas estamos preparados para disponibilizar o acesso aos nossos cliente via nossa API.
 
 Mude para o diretório de APIs.
  - Execute: `cd ../apis_system_integration`
