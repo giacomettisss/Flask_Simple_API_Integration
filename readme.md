@@ -27,7 +27,7 @@ Mude para o diretório de processamento de dados.
 Vamos executar o primeiro Script para que possamos popular a tabela `state_municipality`.
  - Excute: `python3 process_state_municipality.py`
 
-Agora vamos para o segundo Script, o qual é responsável por popular as tabelas `harvest` e `production`, assim como criar a view `productivity`.
+Agora vamos para o segundo Script, o qual é responsável por popular as tabelas `harvest_area` e `production`, assim como criar a view `productivity`.
  - Execute: `python3 process_harvest_production.py`
 
 ### 3. Disponbilizando APIs
