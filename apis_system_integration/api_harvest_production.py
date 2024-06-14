@@ -14,22 +14,22 @@ def get_db_connection():
 def get_base():
     data = {
         'Overview': '/',
-        'Get Harvested Area': '/harvested_area?neighborhood_id={id}&year={year}',
-        'Get Productivity': '/productivity?year={year}&state={state1},{state2}',
-        'Get Produced Quantity': '/produced_quantity?neighborhood_id={id1},{id2}&year={year1},{year2}'
+        'Get Harvested Area': '/harvested_area?year={year}&municipality_id={id}',
+        'Get Productivity': '/productivity?year={year}&state_uf={state}',
+        'Get Produced Quantity': '/produced_quantity?year={year}&municipality_id={id}'
     }
     return jsonify(success=True, data=data, message='Data retrieved successfully')
 
 @app.route('/harvested_area', methods=['GET'])
 def get_harvested_area():
     year = request.args.get('year', type=int)
-    neighborhood_id = request.args.get('neighborhood_id', type=int)
-    if not year or not neighborhood_id:
-        return jsonify(success=False, message='One `year` and one `neighborhood_id` are required'), 400
+    municipality_id = request.args.get('municipality_id', type=int)
+    if not year or not municipality_id:
+        return jsonify(success=False, message='One `year` and one `municipality_id` are required'), 400
     
-    query = 'SELECT * FROM colheita WHERE municipio_codigo = ? AND ano_codigo = ?'
+    query = 'SELECT * FROM harvest WHERE municipality_code = ? AND year_codigo = ?'
     with closing(get_db_connection()) as conn:
-        data = conn.execute(query, (neighborhood_id, year)).fetchone()
+        data = conn.execute(query, (municipality_id, year)).fetchone()
 
     if data:
         return jsonify(success=True, data=dict(data), message='Data retrieved successfully')
@@ -40,11 +40,11 @@ def get_harvested_area():
 @app.route('/productivity', methods=['GET'])
 def get_productivity():
     year = request.args.get('year', type=int)
-    states = request.args.getlist('state')
+    states = request.args.getlist('state_uf')
     if not year or not states:
         return jsonify(success=False, message='One `year` and one or more `state` are required'), 400
     
-    query = 'SELECT * FROM produtividade WHERE ano = ? AND estado IN ({seq1})'.format(
+    query = 'SELECT * FROM productivity WHERE year = ? AND state_uf IN ({seq1})'.format(
         seq1=','.join(['?']*len(states))
     )
     with closing(get_db_connection()) as conn:
@@ -60,14 +60,14 @@ def get_productivity():
 @app.route('/produced_quantity', methods=['GET'])
 def get_produced_quantity():
     years = request.args.getlist('year', type=int)
-    neighborhoods = request.args.getlist('neighborhood_id', type=int)
+    neighborhoods = request.args.getlist('municipality_id', type=int)
     if not neighborhoods or not years:
-        return jsonify(success=False, message='One or more `year` and one or more `neighborhood_id` are required.'), 400
+        return jsonify(success=False, message='One or more `year` and one or more `municipality_id` are required.'), 400
     
     if len(neighborhoods) * len(years) > 100:
         return jsonify(success=False, data=None, message='Request exceeds 100 data points limit'), 400
 
-    query = 'SELECT * FROM producao WHERE municipio_codigo IN ({seq1}) AND ano IN ({seq2})'.format(
+    query = 'SELECT * FROM production WHERE municipality_code IN ({seq1}) AND year IN ({seq2})'.format(
         seq1=','.join(['?']*len(neighborhoods)),
         seq2=','.join(['?']*len(years))
     )
