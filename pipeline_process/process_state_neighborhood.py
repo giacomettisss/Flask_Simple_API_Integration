@@ -26,12 +26,12 @@ def create_tables():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS estado_municipio (
+        CREATE TABLE IF NOT EXISTS state_municipality (
             id INTEGER PRIMARY KEY,
-            id_uf_ibge INTEGER,
-            sg_uf TEXT,
-            id_municipio_ibge INTEGER,
-            nm_municipio TEXT
+            state_ibge_id INTEGER,
+            state_uf TEXT,
+            municipality_ibge_id INTEGER,
+            municipality_name TEXT
         )
     ''')
     conn.commit()
@@ -52,7 +52,7 @@ def populate_estado_municipio():
         for row in reader:
             cursor.execute('''
                 INSERT OR REPLACE INTO estado_municipio (
-                    id_uf_ibge, sg_uf, id_municipio_ibge, nm_municipio
+                    state_ibge_id, state_uf, municipality_ibge_id, municipality_name
                 ) VALUES (?, ?, ?, ?)
             ''', (row['id_uf_ibge'], row['sg_uf'], row['id_municipio_ibge'], row['nm_municipio']))
         cursor.execute('COMMIT')
