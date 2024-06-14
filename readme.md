@@ -24,7 +24,7 @@ O Processamento de Dados é responsável pela construção de algumas tabelas es
 Mude para o diretório de processamento de dados.
  - Execute: `cd pipeline_process`
 
-Vamos executar o primeiro Script para que possamos popular a tabela `state_neighborhood`.
+Vamos executar o primeiro Script para que possamos popular a tabela `estado_municipio`.
  - Excute: `python3 process_state_neighborhood.py`
 
 Agora vamos para o segundo Script, o qual é responsável por popular as tabelas `colheita` e `producao`, assim como criar a view `produtividade`.
@@ -46,23 +46,27 @@ Parece que está tudo pronto. Vamos acessar alguns endpoints e realizar algumas 
 ### Acessando endpoints
 
 Esses são endpoints disponbilizamos pela nossa API:
- - Url: `/harvested_area?neighborhood_id={id}&year={year}`
+ - Path: `/`
+  - Método: `GET`
+  - Descrição: Esse endpoint retorna quais são os paths disponíveis da nossa api.
+ - Path: `/harvested_area?year={year}&neighborhood_id={id}`
   - Método: `GET`
   - Descrição: Esse endpoint retorna o valor de uma área colhida de um código de município de um ano.
- - Url: `/productivity?year={year}&state={state1}`
+ - Path: `/productivity?year={year}&state_uf={state}`
   - Método: `GET`
   - Descrição: Esse endpoint retorna o(s) valor(es) de produtividade de um ou mais estados brasileiros de um ano.
- - Url: `/produced_quantity?year={year1}&neighborhood_id={id1}`
+ - Path: `/produced_quantity?year={year1}&neighborhood_id={id}`
   - Método: `GET`
   - Descrição: Esse endpoint retorna múltiplos valores de quantidade produzida de um ou mais municípios de um ou mais anos.
 
-http://127.0.0.1:5000/harvested_area?year=2018&neighborhood_id=1100015
-http://127.0.0.1:5000/harvested_area?year=2018,2019&neighborhood_id=1100015
+Vamos pegar a área colhida do município Alta Floresta D'Oeste que fica em Rondônia.
+ - Abra a url: http://127.0.0.1:5000/harvested_area?year=2018&neighborhood_id=1100015
 
+Agora vamos ver a produtividade dos estados do Pará e Amazonas no ano de 2019.
+ - Abra a url: http://127.0.0.1:5000/productivity?year=2019&state_uf=AM&state_uf=PA
 
-http://127.0.0.1:5000/productivity?year=2018&state=RO&state=AM&state=PA
-http://127.0.0.1:5000/productivity?state=RO&state=AM&state=PA
+Vamos selecionar também a quantidade produzida para os anos de 2018 e 2019 dos municípios de Alta Floresta D'Oeste, estado de Rondônia, e Belterra, estado do Pará.
+ - Abra a url: http://127.0.0.1:5000/produced_quantity?year=2018&year=2019&neighborhood_id=1100015&neighborhood_id=1501451
 
-
-http://127.0.0.1:5000/produced_quantity?year=2018&year=2019&neighborhood_id=1100015&neighborhood_id=1501451
-http://127.0.0.1:5000/produced_quantity?year=2018&year=2019&year=2020&year=2021&year=2022&year=2023&neighborhood_id=1100015&neighborhood_id=1501451&neighborhood_id=1501600&neighborhood_id=1201709&neighborhood_id=1501725&neighborhood_id=1501758&neighborhood_id=1501782&neighborhood_id=1501808&neighborhood_id=1501907&neighborhood_id=1501956&neighborhood_id=1502004&neighborhood_id=1502103&neighborhood_id=1502152&neighborhood_id=1502202&neighborhood_id=1502301&neighborhood_id=1502400&neighborhood_id=1502509&neighborhood_id=1502608
+Nossa última, porém não menos importante url será para verificar o limite de requisição devido ao pacote do cliente.
+ - Abra a url: http://127.0.0.1:5000/produced_quantity?year=2018&year=2019&year=2020&year=2021&year=2022&year=2023&neighborhood_id=1100015&neighborhood_id=1501451&neighborhood_id=1501600&neighborhood_id=1201709&neighborhood_id=1501725&neighborhood_id=1501758&neighborhood_id=1501782&neighborhood_id=1501808&neighborhood_id=1501907&neighborhood_id=1501956&neighborhood_id=1502004&neighborhood_id=1502103&neighborhood_id=1502152&neighborhood_id=1502202&neighborhood_id=1502301&neighborhood_id=1502400&neighborhood_id=1502509&neighborhood_id=1502608
