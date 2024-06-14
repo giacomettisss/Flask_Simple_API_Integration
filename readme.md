@@ -49,13 +49,13 @@ Esses são os endpoints disponbilizamos pela nossa API:
     - Descrição: Esse endpoint retorna quais são os paths disponíveis da nossa api.
     - Método: `GET`
   - Path: `/harvested_area?year={year}&municipality_id={id}`
-    - Descrição: Esse endpoint retorna o valor de uma área colhida de um código de município de um ano.
+    - Descrição: Esse endpoint retorna o valor de uma área colhida de um município de um ano.
     - Método: `GET`
   - Path: `/productivity?year={year}&state_uf={state}`
     - Descrição: Esse endpoint retorna o(s) valor(es) de produtividade de um ou mais estados brasileiros de um ano.
     - Método: `GET`
-  - Path: `/produced_quantity?year={year1}&municipality_id={id}`
-    - Descrição: Esse endpoint retorna múltiplos valores de quantidade produzida de um ou mais municípios de um ou mais anos.
+  - Path: `/produced_quantity?year={year}&municipality_id={id}`
+    - Descrição: Esse endpoint retorna o(s) valor(es) de quantidade produzida de um ou mais municípios de um ou mais anos.
     - Método: `GET`
 
 Vamos pegar a área colhida do município Alta Floresta D'Oeste que fica em Rondônia.
@@ -73,3 +73,5 @@ Nossa última, porém não menos importante url será para verificar o limite de
  Perfeito!
 
  Concluímos todas as etapas!
+
+ Muito obrigado!
