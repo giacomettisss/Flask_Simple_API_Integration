@@ -27,71 +27,71 @@ def create_tables():
     conn = sqlite3.connect('../database/database.db')
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS colheita (
+        CREATE TABLE IF NOT EXISTS harvest (
             id INTEGER PRIMARY KEY,
-            nivel_territorial_codigo INTEGER,
-            nivel_territorial TEXT,
-            unidade_medida_codigo INTEGER,
-            unidade_medida TEXT,
-            valor INTEGER,
-            municipio_codigo INTEGER,
-            municipio TEXT,
-            variavel_codigo INTEGER,
-            variavel TEXT,
-            ano_codigo INTEGER,
-            ano INTEGER,
-            produto_codigo INTEGER,
-            produto TEXT,
+            territorial_level_code INTEGER,
+            territorial_level TEXT,
+            measure_unit_code INTEGER,
+            measure_unit TEXT,
+            value INTEGER,
+            municipality_code INTEGER,
+            municipality TEXT,
+            variable_code INTEGER,
+            variable TEXT,
+            year_code INTEGER,
+            year INTEGER,
+            product_code INTEGER,
+            product TEXT,
             UNIQUE(
-                nivel_territorial_codigo,
-                unidade_medida_codigo,
-                municipio_codigo,
-                variavel_codigo,
-                ano_codigo,
-                produto_codigo
+                territorial_level_code,
+                measure_unit_code,
+                municipality_code,
+                variable_code,
+                year_code,
+                product_code
             )
         )
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS producao (
+        CREATE TABLE IF NOT EXISTS production (
             id INTEGER PRIMARY KEY,
-            nivel_territorial_codigo INTEGER,
-            nivel_territorial TEXT,
-            unidade_medida_codigo INTEGER,
-            unidade_medida TEXT,
-            valor INTEGER,
-            municipio_codigo TEXT,
-            municipio TEXT,
-            variavel_codigo INTEGER,
-            variavel TEXT,
-            ano_codigo INTEGER,
-            ano INTEGER,
-            produto_codigo INTEGER,
-            produto TEXT,
+            territorial_level_code INTEGER,
+            territorial_level TEXT,
+            measure_unit_code INTEGER,
+            measure_unit TEXT,
+            value INTEGER,
+            municipality_code TEXT,
+            municipality TEXT,
+            variable_code INTEGER,
+            variable TEXT,
+            year_code INTEGER,
+            year INTEGER,
+            product_code INTEGER,
+            product TEXT,
             UNIQUE(
-                nivel_territorial_codigo,
-                unidade_medida_codigo,
-                municipio_codigo,
-                variavel_codigo,
-                ano_codigo,
-                produto_codigo
+                territorial_level_code,
+                measure_unit_code,
+                municipality_code,
+                variable_code,
+                year_code,
+                product_code
             )
         )
     ''')
     cursor.execute('''
-        CREATE VIEW IF NOT EXISTS produtividade AS
+        CREATE VIEW IF NOT EXISTS productivity AS
         SELECT
-            me.sg_uf AS estado,
-            c.ano,
-            SUM(p.valor) / SUM(c.valor) AS produtividade
+            me.state_uf,
+            h.year,
+            SUM(p.value) / SUM(h.value) AS productivity
         FROM
-            colheita c
+            harvest h
         JOIN
-            producao p ON c.municipio_codigo = p.municipio_codigo AND c.ano = p.ano
+            production p ON h.municipality_code = p.municipality_code AND h.year = p.year
         JOIN
-            estado_municipio me ON c.municipio_codigo = me.id_municipio_ibge
+            state_municipality me ON h.municipality_code = me.municipality_id_ibge
         GROUP BY
-            me.sg_uf, c.ano
+            me.state_code, h.year
     ''')
     conn.commit()
     conn.close()
@@ -150,7 +150,7 @@ def delete(year):
 def insert_or_update_till_current_year():
     start_year = 2018
     current_year = datetime.datetime.now().year
-    for year in range(start_year, 2018 + 1):
+    for year in range(start_year, current_year + 1):
         insert_or_update(year=year)
 
 
