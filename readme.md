@@ -32,7 +32,7 @@ Agora vamos para o segundo Script, o qual é responsável por popular as tabelas
 
 ### Disponbilizando APIs
 
-Agora com todos os ETLs já executados, tabelas populadas, views contruiídas estamos preparados para disponibilizar o acesso aos nossos cliente via no API.
+Agora com todos os ETLs já executados, tabelas populadas, views contruiídas estamos preparados para disponibilizar o acesso aos nossos cliente via nossa API.
 
 Mude para o diretório de APIs.
  - Execute: `cd ../apis_system_integration`
@@ -45,7 +45,7 @@ Parece que está tudo pronto. Vamos acessar alguns endpoints e realizar algumas 
 
 ### Acessando endpoints
 
-Esses são endpoints disponbilizamos pela nossa API:
+Esses são os endpoints disponbilizamos pela nossa API:
  - Path: `/`
   - Método: `GET`
   - Descrição: Esse endpoint retorna quais são os paths disponíveis da nossa api.
@@ -70,3 +70,7 @@ Vamos selecionar também a quantidade produzida para os anos de 2018 e 2019 dos 
 
 Nossa última, porém não menos importante url será para verificar o limite de requisição devido ao pacote do cliente.
  - Abra a url: http://127.0.0.1:5000/produced_quantity?year=2018&year=2019&year=2020&year=2021&year=2022&year=2023&municipality_id=1100015&municipality_id=1501451&municipality_id=1501600&municipality_id=1201709&municipality_id=1501725&municipality_id=1501758&municipality_id=1501782&municipality_id=1501808&municipality_id=1501907&municipality_id=1501956&municipality_id=1502004&municipality_id=1502103&municipality_id=1502152&municipality_id=1502202&municipality_id=1502301&municipality_id=1502400&municipality_id=1502509&municipality_id=1502608
+
+ Perfeito!
+
+ Concluímos todas as etapas!
