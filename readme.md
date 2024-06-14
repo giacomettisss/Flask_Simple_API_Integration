@@ -4,7 +4,7 @@ As respostas das questões da Atividade 1 e 2 encontram-se no diretório docs no
 
 ## Passo a passo para iniciar o projeto e implementar as soluções do Processamento de Dados e disponibilização da API
 
-### Criando ambiente virtual e instalando dependencias
+### 1. Criando ambiente virtual e instalando dependencias
 
 O primeiro passo é criar um ambiente virtual para importar todas as bibliotecas e executar os scripts
  - Crie um novo ambiente virtual executando o código: `python3 -m venv venv`
@@ -16,7 +16,7 @@ Insta-le as bibliotecas externas.
  - Execute: `pip install -r requirements.txt`
 
 
-### Executando scripts do Processamento de Dados
+### 2. Executando scripts do Processamento de Dados
 
 Agora com os requisitos mínimos vamos iniciar o Processamento de Dados.
 O Processamento de Dados é responsável pela construção de algumas tabelas essenciais assim como a população dessas tabelas.
@@ -30,7 +30,7 @@ Vamos executar o primeiro Script para que possamos popular a tabela `state_munic
 Agora vamos para o segundo Script, o qual é responsável por popular as tabelas `harvest` e `production`, assim como criar a view `productivity`.
  - Execute: `python3 process_harvest_production.py`
 
-### Disponbilizando APIs
+### 3. Disponbilizando APIs
 
 Agora com todos os ETLs já executados, tabelas populadas, views contruiídas estamos preparados para disponibilizar o acesso aos nossos cliente via nossa API.
 
@@ -43,7 +43,7 @@ Suba a API Harvest Production.
 Perfeito!
 Parece que está tudo pronto. Vamos acessar alguns endpoints e realizar algumas consultas.
 
-### Acessando endpoints
+### 4. Acessando endpoints
 
 Esses são os endpoints disponbilizamos pela nossa API:
  - Path: `/`
