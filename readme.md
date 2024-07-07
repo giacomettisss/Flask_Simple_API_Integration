@@ -1,6 +1,4 @@
-# Teste Técnico para Desenvolvedor na Veeries
-
-As respostas das questões da Atividade 1 e 2 encontram-se no diretório docs no arquivo atividades.md.
+# Integração Simple de API Flask
 
 ## Passo a passo para iniciar o projeto e implementar as soluções do Processamento de Dados e disponibilização da API
 
