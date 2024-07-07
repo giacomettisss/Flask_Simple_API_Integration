@@ -1,4 +1,4 @@
-# Integração Simple de API Flask
+# Integração Simples Flask API
 
 ## Passo a passo para iniciar o projeto e implementar as soluções do Processamento de Dados e disponibilização da API
 
